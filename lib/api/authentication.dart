@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart' show required;
+import 'package:pet_card/data/environment.dart';
 
 class Authentication {
   final Dio _dio = Dio();
@@ -13,7 +14,7 @@ class Authentication {
   }) async {
     try {
       final Response response = await _dio.post(
-          "${dotenv.env['API_URL']}/api/register",
+          "${Environment.apiUrl}/api/register",
           options: Options(
             headers: {
               'Content-type': 'application/json',

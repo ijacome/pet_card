@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_card/api/authentication.dart';
 import 'package:pet_card/data/environment.dart';
+import 'package:pet_card/utils/dialogs.dart';
 
 Future<void> main() async {
   await dotenv.load(
@@ -39,8 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final Authentication _authentication = Authentication();
 
-  void _incrementCounter() {
-    _authentication.register(email: 'ving@mail.com', password: 'Academia1');
+  Future<void> _incrementCounter() async {
+    ProgressDialog.show(context);
+    await _authentication.register(email: 'ving@mail.com', password: 'Academia1');
+    ProgressDialog.dissmiss(context);
     setState(() {
       _counter++;
     });

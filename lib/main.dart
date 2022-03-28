@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_card/api/authentication.dart';
 import 'package:pet_card/data/environment.dart';
+import 'package:pet_card/helpers/http_response.dart';
 import 'package:pet_card/utils/dialogs.dart';
+import 'package:logger/logger.dart';
 
 Future<void> main() async {
   await dotenv.load(
@@ -38,12 +40,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final Logger _logger = Logger();
+
   final Authentication _authentication = Authentication();
 
   Future<void> _incrementCounter() async {
     ProgressDialog.show(context);
-    await _authentication.register(email: 'ving@mail.com', password: 'Academia1');
+    final HttpResponse response = await _authentication.register(email: "vin1g@mail.com", password: "Academia1");
     ProgressDialog.dissmiss(context);
+    if (response.data != null) {
+      _logger.i("register OK");
+    } else {
+      _logger.e("register error status code ${response.error?.statusCode}");
+      _logger.e("register error message ${response.error?.message}");
+      _logger.e("register error data ${response.error?.data}");
+    }
     setState(() {
       _counter++;
     });
@@ -60,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('$_counter'),
-            Text(dotenv.env['API_URL'].toString())
+            Text(Environment.apiUrl.toString())
           ],
         ),
       ),

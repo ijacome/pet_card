@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:pet_card/api/authentication.dart';
 import 'package:pet_card/data/environment.dart';
+import 'package:pet_card/helpers/dependency_injection.dart';
 import 'package:pet_card/helpers/http_response.dart';
+import 'package:pet_card/repositories/auth.dart';
 import 'package:pet_card/utils/dialogs.dart';
 import 'package:logger/logger.dart';
 
@@ -11,6 +11,7 @@ Future<void> main() async {
   await dotenv.load(
     fileName: Environment.fileName,
   );
+  DependencyInjection.initialize();
   runApp(const MyApp());
 }
 
@@ -42,18 +43,16 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final Logger _logger = Logger();
 
-  final Authentication _authentication = Authentication();
+  final Auth _authentication = Auth();
 
   Future<void> _incrementCounter() async {
     ProgressDialog.show(context);
     final HttpResponse response = await _authentication.register(email: "vin1g@mail.com", password: "Academia1");
-    ProgressDialog.dissmiss(context);
+    ProgressDialog.dismiss(context);
     if (response.data != null) {
-      _logger.i("register OK");
+      _logger.i(response.data);
     } else {
-      _logger.e("register error status code ${response.error?.statusCode}");
-      _logger.e("register error message ${response.error?.message}");
-      _logger.e("register error data ${response.error?.data}");
+      Dialogs.alert(context, title: "Error", description: response.error!.message);
     }
     setState(() {
       _counter++;

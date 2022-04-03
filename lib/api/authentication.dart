@@ -1,54 +1,39 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart' show required;
-import 'package:pet_card/data/environment.dart';
+import 'package:pet_card/api/dio_basic.dart';
+import 'package:pet_card/helpers/http.dart';
 import 'package:pet_card/helpers/http_response.dart';
 
-class Authentication {
-  final Dio _dio = Dio();
-  final Logger _logger = Logger();
+class Authentication extends DioBasic {
+
+  Authentication(Http http) : super(http);
+
 
   Future<HttpResponse> register({
     required String email,
     required String password,
-  }) async {
-    try {
-      final Response response = await _dio.post(
-          "${Environment.apiUrl}/api/register",
-          options: Options(
-            headers: {
-              'Content-type': 'application/json',
-            },
-          ),
-          data: {
-            email: email,
-            password: password
-          }
-      );
-      return HttpResponse.success(response.data);
-    } catch (e) {
-      int statusCode = -1;
-      String message = "unknown error";
-      dynamic data;
+  }) {
+    return http.request(
+        "/api/register",
+        method: "POST",
+        data: {
+          email: email,
+          password: password
+        },
+    );
+  }
 
-      if (e is DioError) {
-        message = e.message;
-        if (e.response != null) {
-          statusCode = e.response!.statusCode!;
-          message = e.response!.statusMessage!;
-          data = e.response!.data;
-        }
-      }
-
-      return HttpResponse.fail(
-        statusCode: statusCode,
-        message: message,
-        data: data,
-      );
-
-      _logger.e(e);
-    }
-
+  Future<HttpResponse> login({
+    required String email,
+    required String password,
+  }) {
+    return http.request(
+      "/api/login",
+      method: "POST",
+      data: {
+        email: email,
+        password: password
+      },
+    );
   }
 }

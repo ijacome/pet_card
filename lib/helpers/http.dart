@@ -18,11 +18,12 @@ class Http {
     _logsEnabled = _logsEnabled;
   }
 
-  Future<HttpResponse> request(String path, {
+  Future<HttpResponse<T>> request<T>(String path, {
     String method = "GET",
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? data,
     Map<String, String>? headers,
+    T Function(dynamic data)? parser,
 }) async {
     try {
       final Response response = await _dio.request(
@@ -36,6 +37,9 @@ class Http {
           queryParameters: queryParameters,
           data: data,
       );
+      if (parser != null) {
+        return HttpResponse.success<T>(parser(response.data));
+      }
       return HttpResponse.success(response.data);
     } catch (e) {
       int statusCode = -1;

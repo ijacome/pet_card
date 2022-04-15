@@ -3,6 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_card/data/environment.dart';
 import 'package:pet_card/helpers/dependency_injection.dart';
 import 'package:pet_card/helpers/http_response.dart';
+import 'package:pet_card/pages/home_page.dart';
+import 'package:pet_card/pages/splash_page.dart';
 import 'package:pet_card/repositories/auth.dart';
 import 'package:pet_card/utils/dialogs.dart';
 import 'package:logger/logger.dart';
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
@@ -47,12 +49,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _incrementCounter() async {
     ProgressDialog.show(context);
-    final HttpResponse response = await _authentication.register(email: "vin1g@mail.com", password: "Academia1");
+    final HttpResponse response = await _authentication.register(
+      email: "vin1g@mail.com",
+      password: "Academia1",
+    );
     ProgressDialog.dismiss(context);
     if (response.data != null) {
       _logger.i(response.data);
     } else {
-      Dialogs.alert(context, title: "Error", description: response.error!.message);
+      Dialogs.alert(
+        context,
+        title: "Error",
+        description: response.error!.message,
+      );
     }
     setState(() {
       _counter++;

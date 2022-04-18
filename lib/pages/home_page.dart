@@ -21,13 +21,15 @@ class _HomePageState extends State<HomePage> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Stack(
-            children: const [
-              LoginForm()
-            ],
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: double.infinity,
+            height: responsive.height,
+            child: Stack(
+              children: const [
+                LoginForm()
+              ],
+            ),
           ),
         ),
       ),

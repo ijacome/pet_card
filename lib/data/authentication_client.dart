@@ -19,7 +19,7 @@ class AuthenticationClient {
     return null;
   }
 
-  Future<void> saveSession(AuthenticationResponse authenticationResponse) async {
+  Future<void> saveSession(authenticationResponse) async {
     final Session session = Session(
       token: authenticationResponse.token,
       expiresIn: authenticationResponse.expiresIn,

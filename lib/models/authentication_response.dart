@@ -1,5 +1,3 @@
-
-
 class AuthenticationResponse {
   final String token;
   final int expiresIn;

@@ -15,7 +15,7 @@ class Session {
     return Session(
       token: json['access_token'],
       expiresIn: json['expires_in'],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['created_at']),
     );
   }
 

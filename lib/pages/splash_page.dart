@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pet_card/data/authentication_client.dart';
-import 'package:pet_card/main.dart';
+import 'package:pet_card/pages/home_page.dart';
+import 'package:pet_card/pages/login_page.dart';
 
 class SplashPage extends StatefulWidget {
+  static const routeName = "splashPage";
   const SplashPage({Key? key}) : super (key: key);
 
   @override
@@ -26,16 +28,19 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> _checkLogin () async {
     final token = await _authenticationClient.accessToken;
     if (token == null) {
-      Navigator.pushReplacementNamed(context, 'MyHomePage');
+      Navigator.pushReplacementNamed(context, LoginPage.routeName);
       return;
     }
-    Navigator.pushReplacementNamed(context, 'MyHomePage');
+    Navigator.pushReplacementNamed(context, HomePage.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
   }
 
 }

@@ -8,7 +8,9 @@ class DioBasic {
   final Logger logger = Logger();
   final Dio dio = Dio(
       BaseOptions(
-          baseUrl: Environment.apiUrl
+        baseUrl: Environment.apiUrl,
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
       )
   );
   final Options options = Options(

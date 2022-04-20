@@ -18,8 +18,8 @@ class Authentication extends DioBasic {
         "/api/register",
         method: "POST",
         data: {
-          email: email,
-          password: password
+          "email": email,
+          "password": password
         },
         parser: (data) {
           return AuthenticationResponse.fromJson(data);
@@ -35,12 +35,12 @@ class Authentication extends DioBasic {
       "/api/login",
       method: "POST",
       data: {
-        email: email,
-        password: password
+        "email": email,
+        "password": password
       },
       parser: (data) {
         return AuthenticationResponse.fromJson(data);
-      }
+      },
     );
   }
 }

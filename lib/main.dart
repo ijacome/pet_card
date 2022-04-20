@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pet_card/data/environment.dart';
 import 'package:pet_card/helpers/dependency_injection.dart';
 import 'package:pet_card/helpers/http_response.dart';
+import 'package:pet_card/l10n/L10n.dart';
 import 'package:pet_card/pages/home_page.dart';
-import 'package:pet_card/pages/splash_page.dart';
 import 'package:pet_card/repositories/auth.dart';
 import 'package:pet_card/utils/dialogs.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   await dotenv.load(
@@ -35,6 +37,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity
       ),
+      supportedLocales: L10n.all,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: const HomePage(),
     );
   }

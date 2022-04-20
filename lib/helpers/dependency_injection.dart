@@ -12,6 +12,8 @@ abstract class DependencyInjection {
   static void initialize() {
     final Dio dio = Dio(BaseOptions(
       baseUrl: Environment.apiUrl,
+      contentType: Headers.jsonContentType,
+      responseType: ResponseType.json,
     ));
     Logger logger = Logger();
     Http http = Http(

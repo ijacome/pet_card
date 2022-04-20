@@ -27,21 +27,22 @@ class Http {
 }) async {
     try {
       final Response response = await _dio.request(
-          path,
-          options: Options(
-            method: method,
-            contentType: Headers.jsonContentType,
-            responseType: ResponseType.json,
-            headers: headers,
-          ),
-          queryParameters: queryParameters,
-          data: data,
+        path,
+        options: Options(
+          method: method,
+          contentType: Headers.jsonContentType,
+          responseType: ResponseType.json,
+          headers: headers,
+        ),
+        queryParameters: queryParameters,
+        data: data,
       );
       if (parser != null) {
         return HttpResponse.success<T>(parser(response.data));
       }
       return HttpResponse.success(response.data);
     } catch (e) {
+      print(e);
       int statusCode = -1;
       String message = "unknown error";
       dynamic data;

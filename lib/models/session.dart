@@ -13,17 +13,17 @@ class Session {
 
   static Session fromJson(Map<String, dynamic> json) {
     return Session(
-      token: json['token'],
-      expiresIn: json['expiresIn'],
+      token: json['access_token'],
+      expiresIn: json['expires_in'],
       createdAt: DateTime.parse(json['createdAt']),
     );
   }
 
   Map<String, dynamic> toJson () {
     return {
-      "token": token,
-      "expiresIn": expiresIn,
-      "createdAt": createdAt.toString()
+      "access_token": token,
+      "expires_in": expiresIn,
+      "created_at": createdAt.toString()
     };
   }
 }

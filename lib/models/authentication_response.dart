@@ -11,8 +11,8 @@ class AuthenticationResponse {
 
   static AuthenticationResponse fromJson(Map<String, dynamic> json) {
     return AuthenticationResponse(
-      token: json['token'],
-      expiresIn: json['expiresIn'],
+      token: json['access_token'],
+      expiresIn: json['expires_in'],
     );
   }
 }

@@ -21,14 +21,12 @@ class _LoginFormState extends State<LoginForm> {
   _submit() async {
     final isOk  = _formKey.currentState?.validate();
     if (isOk!) {
-      print(_email.trim());
-      print(_password);
-      ProgressDialog.show(context);
+      // ProgressDialog.show(context);
       final HttpResponse response = await _authentication.login(
         email: _email.trim(),
         password: _password.trim(),
       );
-      ProgressDialog.dismiss(context);
+      // ProgressDialog.dismiss(context);
       if (response.data != null) {
         _logger.i(response.data);
       } else {

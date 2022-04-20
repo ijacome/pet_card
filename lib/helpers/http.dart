@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
-import 'package:meta/meta.dart' show required;
 import 'package:pet_card/helpers/http_response.dart';
 
 class Http {
@@ -40,9 +39,8 @@ class Http {
       if (parser != null) {
         return HttpResponse.success<T>(parser(response.data));
       }
-      return HttpResponse.success(response.data);
+      return HttpResponse.success<T>(response.data);
     } catch (e) {
-      print(e);
       int statusCode = -1;
       String message = "unknown error";
       dynamic data;

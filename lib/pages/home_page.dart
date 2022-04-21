@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:pet_card/data/authentication_client.dart';
 import 'package:pet_card/pages/login_page.dart';
 import 'package:pet_card/utils/responsive.dart';
-import 'package:pet_card/widgets/login_form.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = "home";
@@ -35,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                 LoginPage.routeName, (route) => false,
               );
             },
-              child: Text("Logout"),
+              child: const Text("Logout"),
           ),
         ),
       ),

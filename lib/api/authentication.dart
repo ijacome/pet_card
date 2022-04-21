@@ -1,7 +1,7 @@
 import 'package:pet_card/api/dio_basic.dart';
 import 'package:pet_card/helpers/http.dart';
 import 'package:pet_card/helpers/http_response.dart';
-import 'package:pet_card/models/Authentication_response.dart';
+import 'package:pet_card/models/authentication_response.dart';
 
 class Authentication extends DioBasic {
 

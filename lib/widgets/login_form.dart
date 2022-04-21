@@ -24,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
   String _email = '', _password = '';
 
   _submit() async {
-    final isOk  = _formKey.currentState?.validate();
+    final isOk = _formKey.currentState?.validate();
     if (isOk!) {
       ProgressDialog.show(context);
       final HttpResponse response = await _authentication.login(
@@ -34,7 +34,8 @@ class _LoginFormState extends State<LoginForm> {
       ProgressDialog.dismiss(context);
       if (response.data != null) {
         _authenticationClient.saveSession(response.data);
-        Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomePage.routeName, (route) => false);
       } else {
         _logger.e(response.error!.data);
         Dialogs.alert(
@@ -45,17 +46,16 @@ class _LoginFormState extends State<LoginForm> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     final Responsive responsive = Responsive.of(context);
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(
-        textStyle: TextStyle(
-            fontSize: responsive.dp(1.6),
-            color: Colors.deepPurple
-        ),
-        elevation: 2
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: TextStyle(
+        fontSize: responsive.dp(1.6),
+        color: Colors.deepPurple,
+      ),
+      elevation: 2,
     );
     return Positioned(
       bottom: 30,
@@ -82,19 +82,43 @@ class _LoginFormState extends State<LoginForm> {
                   _password = value;
                 },
               ),
-              SizedBox(height: responsive.dp(5),),
+              SizedBox(
+                height: responsive.dp(5),
+              ),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _submit,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Text("Sign in"),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: ElevatedButton(
+                    onPressed: _submit,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Text("LOGIN"),
+                    ),
+                    style: style,
                   ),
-                  style: style,
                 ),
               ),
-              SizedBox(height: responsive.dp(10),)
+              SizedBox(
+                height: responsive.dp(2),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text("Forgot Password"),
+                ),
+              ),
+              SizedBox(
+                height: responsive.dp(2),
+              ),
+              const Align(
+                alignment: Alignment.center,
+                child: Text("Login with"),
+              ),
+              SizedBox(
+                height: responsive.dp(15),
+              )
             ],
           ),
         ),

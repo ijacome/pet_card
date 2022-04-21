@@ -69,6 +69,16 @@ class _LoginFormState extends State<LoginForm> {
           key: _formKey,
           child: Column(
             children: [
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text("Sign In", style: TextStyle(fontSize: 28, color: Colors.orangeAccent),),
+                ),
+              ),
+              SizedBox(
+                height: responsive.dp(5),
+              ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Email Address"),
                 onChanged: (value) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_card/utils/my_colors.dart';
 import 'package:pet_card/utils/responsive.dart';
 
 class OrangeShape extends StatelessWidget {
@@ -18,7 +19,7 @@ class OrangeShape extends StatelessWidget {
       child: ClipPath(
         clipper: CustomClipPath(),
         child: Container(
-          color: Colors.orangeAccent,
+          color: MyColors.ripeOrange,
           height: 190,
           width: responsive.width / 2,
         ),

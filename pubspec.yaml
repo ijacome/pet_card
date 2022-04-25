@@ -44,6 +44,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   get_it: ^7.2.0
   flutter_secure_storage: ^5.0.2
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -84,11 +85,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: SocialMedia
+      fonts:
+        - asset: assets/fonts/icons/SocialMedia.ttf
+  #       - asset: fonts/Schuyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

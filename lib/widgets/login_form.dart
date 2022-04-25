@@ -6,7 +6,9 @@ import 'package:pet_card/helpers/http_response.dart';
 import 'package:pet_card/pages/home_page.dart';
 import 'package:pet_card/repositories/auth.dart';
 import 'package:pet_card/utils/dialogs.dart';
+import 'package:pet_card/utils/my_colors.dart';
 import 'package:pet_card/utils/responsive.dart';
+import 'package:pet_card/utils/social_media_icons.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -24,8 +26,7 @@ class _LoginFormState extends State<LoginForm> {
   String _email = '', _password = '';
 
   _submit() async {
-    final isOk = _formKey.currentState?.validate();
-    if (isOk!) {
+    if (_formKey.currentState!.validate()) {
       ProgressDialog.show(context);
       final HttpResponse response = await _authentication.login(
         email: _email.trim(),
@@ -50,59 +51,91 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: TextStyle(
-        fontSize: responsive.dp(1.6),
-        color: Colors.deepPurple,
-      ),
-      elevation: 2,
+    final ButtonStyle style = ButtonStyle(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      )),
+      backgroundColor: MaterialStateProperty.all<Color>(MyColors.purpleOne),
     );
+    const InputDecoration _inputDecoration = InputDecoration(
+      labelStyle: TextStyle(
+        color: MyColors.purpleOne,
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: MyColors.purpleOne,
+        ),
+      ),
+    );
+
     return Positioned(
       bottom: 30,
-      left: 20,
-      right: 20,
       child: Container(
         constraints: BoxConstraints(
-          maxWidth: responsive.isTablet ? 430 : 360,
+          maxWidth: responsive.isTablet ? 450 : 360,
         ),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text("Sign In", style: TextStyle(fontSize: 28, color: Colors.orangeAccent),),
+              const Text(
+                "Sign In",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.orangeAccent,
                 ),
               ),
               SizedBox(
-                height: responsive.dp(5),
+                height: responsive.dp(3.5),
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: "Email Address"),
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                style: const TextStyle(
+                  color: Colors.black87,
+                ),
+                validator: (text) {
+                  if (!text.toString().trim().contains("@")) {
+                    return "invalid email";
+                  }
+                  return null;
+                },
+                decoration:
+                    _inputDecoration.copyWith(labelText: "Email Address"),
                 onChanged: (value) {
                   _email = value;
                 },
               ),
               TextFormField(
+                keyboardType: TextInputType.visiblePassword,
+                textInputAction: TextInputAction.done,
+                style: const TextStyle(
+                  color: Colors.black87,
+                ),
+                validator: (text) {
+                  if (text.toString().trim() == "") {
+                    return "you must enter a password";
+                  }
+                  return null;
+                },
                 obscureText: true,
-                decoration: const InputDecoration(labelText: "Password"),
+                decoration: _inputDecoration.copyWith(labelText: "password"),
                 onChanged: (value) {
                   _password = value;
                 },
               ),
               SizedBox(
-                height: responsive.dp(5),
+                height: responsive.dp(3),
               ),
               SizedBox(
                 width: double.infinity,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: ElevatedButton(
                     onPressed: _submit,
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: EdgeInsets.symmetric(vertical: 10),
                       child: Text("LOGIN"),
                     ),
                     style: style,
@@ -110,24 +143,68 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               SizedBox(
-                height: responsive.dp(2),
+                height: responsive.dp(1),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text("Forgot Password"),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "Forgot Password",
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+                style: TextButton.styleFrom(
+                  primary: MyColors.ripeOrange,
                 ),
               ),
               SizedBox(
-                height: responsive.dp(2),
+                height: responsive.dp(1),
               ),
-              const Align(
-                alignment: Alignment.center,
-                child: Text("Login with"),
+              const Text(
+                "Login with",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black87,
+                ),
               ),
               SizedBox(
-                height: responsive.dp(15),
+                height: responsive.dp(1),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Icon(
+                      SocialMedia.facebook,
+                      color: Colors.white,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(8),
+                      primary: MyColors.purpleOne,
+                      onPrimary: MyColors.ripeOrange,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Icon(
+                      SocialMedia.google,
+                      color: Colors.white,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(8),
+                      primary: MyColors.purpleOne,
+                      onPrimary: MyColors.ripeOrange,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: responsive.isTablet
+                    ? responsive.dp(18.5)
+                    : responsive.dp(14.5),
               )
             ],
           ),

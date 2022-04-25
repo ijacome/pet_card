@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pet_card/utils/my_colors.dart';
 import 'package:pet_card/utils/responsive.dart';
 
-class PurpleShape extends StatelessWidget {
+class GrayBottomShape extends StatelessWidget {
   final double size;
 
-  const PurpleShape({Key? key, required this.size})
+  const GrayBottomShape({Key? key, required this.size})
       : assert(size > 0),
         super(key: key);
 
@@ -14,14 +14,14 @@ class PurpleShape extends StatelessWidget {
     final Responsive responsive = Responsive.of(context);
 
     return Positioned(
-      top: 0,
-      left: 0,
+      bottom: 0,
+      right: 0,
       child: ClipPath(
         clipper: CustomClipPath(),
         child: Container(
-          color: MyColors.purpleOne,
-          height: 170,
-          width: responsive.width - 50,
+          color: MyColors.grayMuted,
+          height: 190,
+          width: responsive.width / 2 + 60,
         ),
       ),
     );
@@ -34,11 +34,10 @@ class CustomClipPath extends CustomClipper<Path> {
     double w = size.width;
     double h = size.height;
     final path = Path();
-    path.moveTo(0,0);
-    path.lineTo(size.width,0);
-    path.quadraticBezierTo(size.width*0.8993750,size.height*1.0115000,size.width*0.4850000,size.height*0.6120000);
-    path.cubicTo(size.width*0.2184375,size.height*0.2980000,size.width*0.0950000,size.height*0.7295000,size.width*0.0637500,size.height*0.8560000);
-    path.quadraticBezierTo(size.width*0.0428125,size.height*0.9595000,0,size.height);
+    path.moveTo(size.width,size.height*0.1020000);
+    path.quadraticBezierTo(size.width*0.6037500,size.height*0.1330000,size.width*0.4962500,size.height*0.6080000);
+    path.quadraticBezierTo(size.width*0.4818750,size.height*0.7215000,size.width*0.4775000,size.height);
+    path.lineTo(size.width,size.height);
     path.close();
     return path;
   }

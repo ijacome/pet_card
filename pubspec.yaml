@@ -45,6 +45,7 @@ dependencies:
   get_it: ^7.2.0
   flutter_secure_storage: ^5.0.2
   curved_navigation_bar: ^1.0.3
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - .env
     - .env.development
     - .env.production
+    - assets/svg/truck.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -89,6 +91,10 @@ flutter:
     - family: SocialMedia
       fonts:
         - asset: assets/fonts/icons/SocialMedia.ttf
+    - family: PetsIcons
+      fonts:
+        - asset: assets/fonts/icons/PetsIcons.ttf
+
   #       - asset: fonts/Schuyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

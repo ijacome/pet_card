@@ -56,23 +56,11 @@ class _HomePageState extends State<HomePage> {
       extendBody: true,
       appBar: AppBar(
         actions: [
-          TextButton(
+          IconButton(
             onPressed: () {},
-            child: Column(
-              children: const [
-                Icon(
-                  Icons.add_circle_outline,
-                  color: MyColors.ripeOrange,
-                ),
-                Text(
-                  "Add new Event",
-                  style: TextStyle(
-                    color: MyColors.ripeOrange,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w400
-                  ),
-                )
-              ],
+            icon: const Icon(
+              Icons.add_circle_outline,
+              color: MyColors.ripeOrange,
             ),
           ),
         ],

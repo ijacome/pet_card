@@ -23,7 +23,7 @@ class Session {
     return {
       "access_token": token,
       "expires_in": expiresIn,
-      "created_at": createdAt.toString()
+      "created_at": createdAt.toIso8601String()
     };
   }
 }

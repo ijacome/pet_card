@@ -11,7 +11,7 @@ class Session {
     required this.createdAt
   });
 
-  static Session fromJson(Map<String, dynamic> json) {
+  factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
       token: json['access_token'],
       expiresIn: json['expires_in'],

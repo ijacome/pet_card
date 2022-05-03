@@ -14,7 +14,7 @@ class Http {
   }) {
     _dio = dio;
     _logger = logger;
-    _logsEnabled = _logsEnabled;
+    _logsEnabled = logsEnabled;
   }
 
   Future<HttpResponse<T>> request<T>(String path, {

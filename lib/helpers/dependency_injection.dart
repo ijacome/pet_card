@@ -28,6 +28,7 @@ abstract class DependencyInjection {
     final authenticationClient = AuthenticationClient(_secureStorage);
 
 
+    GetIt.instance.registerSingleton<Http>(http);
     GetIt.instance.registerSingleton<Authentication>(authentication);
     GetIt.instance.registerSingleton<AuthenticationClient>(authenticationClient);
   }

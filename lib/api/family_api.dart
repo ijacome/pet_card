@@ -2,13 +2,13 @@ import 'package:pet_card/api/dio_basic.dart';
 import 'package:pet_card/data/authentication_client.dart';
 import 'package:pet_card/helpers/http.dart';
 import 'package:pet_card/helpers/http_response.dart';
-import 'package:pet_card/models/pet.dart';
+import 'package:pet_card/models/customers/family.dart';
 
-class DioPet extends DioBasic {
+class FamilyApi extends DioBasic {
   final AuthenticationClient _authenticationClient;
-  DioPet(Http http, this._authenticationClient) : super(http);
+  FamilyApi(Http http, this._authenticationClient) : super(http);
 
-  Future<HttpResponse<Pet>> myFamilies() async {
+  Future<HttpResponse<List<Family>>> myFamilies() async {
     final token = await _authenticationClient.accessToken;
     return http.request(
       "/my-families",
@@ -17,7 +17,8 @@ class DioPet extends DioBasic {
         "token": token!,
       },
       parser: (data) {
-        return Pet.fromJson(data);
+        print(data);
+        return Families.fromJson(data).families;
       }
     );
   }

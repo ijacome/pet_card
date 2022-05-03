@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pet_card/data/authentication_client.dart';
+import 'package:pet_card/models/customers/family.dart';
 import 'package:pet_card/pages/login_page.dart';
+import 'package:pet_card/repositories/family_repository.dart';
 import 'package:pet_card/utils/my_colors.dart';
 import 'package:pet_card/utils/pets_icons.dart';
 import 'package:pet_card/utils/responsive.dart';
@@ -80,6 +82,20 @@ class _HomePageState extends State<HomePage> {
           children: [
             const DrawerHeader(
               child: Text("I am"),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    onTap: () async {
+                      FamilyRepository familyRepository = FamilyRepository();
+                      var families = await familyRepository.myFamilies();
+                      // print(families);
+                    },
+                    title: const Text("Clicks"),
+                  )
+                ],
+              ),
             ),
             TextButton(
               onPressed: () async {

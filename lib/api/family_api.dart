@@ -10,14 +10,13 @@ class FamilyApi extends DioBasic {
 
   Future<HttpResponse<List<Family>>> myFamilies() async {
     final token = await _authenticationClient.accessToken;
-    return http.request(
+    return http.request<List<Family>>(
       "/my-families",
       method: "GET",
       headers: {
-        "token": token!,
+        "Authorization": "Bearer ${token!}",
       },
       parser: (data) {
-        print(data);
         return Families.fromJson(data).families;
       }
     );

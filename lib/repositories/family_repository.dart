@@ -8,7 +8,6 @@ class FamilyRepository extends BasicRepository {
 
   Future<HttpResponse<List<Family>>> myFamilies() async {
     HttpResponse<List<Family>> fam = await _familyApi.myFamilies();
-    print(fam.data);
     return fam;
   }
 }

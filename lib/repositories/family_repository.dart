@@ -7,7 +7,6 @@ class FamilyRepository extends BasicRepository {
   late final FamilyApi _familyApi = FamilyApi(http, authenticationClient);
 
   Future<HttpResponse<List<Family>>> myFamilies() async {
-    HttpResponse<List<Family>> fam = await _familyApi.myFamilies();
-    return fam;
+    return await _familyApi.myFamilies();
   }
 }

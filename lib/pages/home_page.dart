@@ -2,21 +2,22 @@ import 'dart:io';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pet_card/data/authentication_client.dart';
+import 'package:pet_card/helpers/http_response.dart';
 import 'package:pet_card/models/customers/family.dart';
+import 'package:pet_card/models/user.dart';
 import 'package:pet_card/pages/login_page.dart';
 import 'package:pet_card/repositories/family_repository.dart';
+import 'package:pet_card/utils/dialogs.dart';
 import 'package:pet_card/utils/my_colors.dart';
 import 'package:pet_card/utils/pets_icons.dart';
-import 'package:pet_card/utils/responsive.dart';
 import 'package:pet_card/widgets/pet_profile.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = "home";
-
-  const HomePage({Key? key}) : super(key: key);
+  final User? user;
+  const HomePage({Key? key, this.user}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -26,10 +27,33 @@ class _HomePageState extends State<HomePage> {
   final AuthenticationClient _authenticationClient =
       GetIt.instance<AuthenticationClient>();
   int _indexNavigatorBar = 2;
+  List<Family> _families = [];
+  Family? _familySelected;
+
+  @override
+  void initState() {
+    super.initState();
+    _getFamilies();
+  }
+
+  _getFamilies() async {
+    FamilyRepository familyRepository = FamilyRepository();
+    HttpResponse familiesResponse = await familyRepository.myFamilies();
+    if (familiesResponse.data != null) {
+      _families = familiesResponse.data;
+      _familySelected = _families.first;
+    } else {
+      Dialogs.alert(
+        context,
+        title: "Error",
+        description: familiesResponse.error!.message,
+      );
+    }
+    // print(families);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final Responsive responsive = Responsive.of(context);
     final _items = <Widget>[
       const Icon(
         Icons.home,
@@ -80,19 +104,30 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: Column(
           children: [
-            const DrawerHeader(
-              child: Text("I am"),
+            DrawerHeader(
+              child: Text("Hello, " + widget.user!.name.toString()),
             ),
             Expanded(
               child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
-                  ListTile(
-                    onTap: () async {
-                      FamilyRepository familyRepository = FamilyRepository();
-                      var families = await familyRepository.myFamilies();
-                      // print(families);
-                    },
-                    title: const Text("Clicks"),
+                  ExpansionTile(
+                    title: const Text('Families'),
+                    leading: const Icon(Icons.group),
+                    subtitle: Text(_familySelected != null
+                        ? _familySelected!.name.toString()
+                        : '-'),
+                    children: _families.map((Family family) {
+                      return ListTile(
+                        onTap: () {
+                          setState(() {
+                            _familySelected = family;
+                          });
+                        },
+                        selected: family.id == _familySelected!.id,
+                        title: Text(family.name.toString()),
+                      );
+                    }).toList(),
                   )
                 ],
               ),
@@ -106,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   (route) => false,
                 );
               },
-              child: const Text("Logout"),
+              child: const Text("Settings"),
             ),
           ],
         ),
@@ -115,10 +150,10 @@ class _HomePageState extends State<HomePage> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: SingleChildScrollView(
-            child: Container(
+        child: const SingleChildScrollView(
+            child: SizedBox(
           width: double.infinity,
-          child: const PetProfile(),
+          child: PetProfile(),
         )),
       ),
       bottomNavigationBar: Theme(
@@ -136,7 +171,6 @@ class _HomePageState extends State<HomePage> {
             setState(() {
               _indexNavigatorBar = value;
             });
-            print(_indexNavigatorBar);
           },
         ),
       ),

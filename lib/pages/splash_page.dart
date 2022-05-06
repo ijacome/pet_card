@@ -6,11 +6,11 @@ import 'package:pet_card/pages/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   static const routeName = "splashPage";
-  const SplashPage({Key? key}) : super (key: key);
+
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
   _SplashPageState createState() => _SplashPageState();
-
 }
 
 class _SplashPageState extends State<SplashPage> {
@@ -25,22 +25,28 @@ class _SplashPageState extends State<SplashPage> {
     });
   }
 
-  Future<void> _checkLogin () async {
+  Future<void> _checkLogin() async {
     final token = await _authenticationClient.accessToken;
     if (token == null) {
       Navigator.pushReplacementNamed(context, LoginPage.routeName);
       return;
     }
-    Navigator.pushReplacementNamed(context, HomePage.routeName);
+    final user = await _authenticationClient.user;
+    // Navigator.pushReplacementNamed(context, HomePage.routeName);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        settings: const RouteSettings(name: HomePage.routeName),
+        builder: (context) => HomePage(
+          user: user,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator()
-      ),
+      body: Center(child: CircularProgressIndicator()),
     );
   }
-
 }

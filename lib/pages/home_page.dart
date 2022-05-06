@@ -6,9 +6,11 @@ import 'package:get_it/get_it.dart';
 import 'package:pet_card/data/authentication_client.dart';
 import 'package:pet_card/helpers/http_response.dart';
 import 'package:pet_card/models/customers/family.dart';
+import 'package:pet_card/models/pet.dart';
 import 'package:pet_card/models/user.dart';
 import 'package:pet_card/pages/login_page.dart';
 import 'package:pet_card/repositories/family_repository.dart';
+import 'package:pet_card/repositories/pet_repository.dart';
 import 'package:pet_card/utils/dialogs.dart';
 import 'package:pet_card/utils/my_colors.dart';
 import 'package:pet_card/utils/pets_icons.dart';
@@ -28,20 +30,26 @@ class _HomePageState extends State<HomePage> {
       GetIt.instance<AuthenticationClient>();
   int _indexNavigatorBar = 2;
   List<Family> _families = [];
+  List<Pet> _pets = [];
   Family? _familySelected;
+  Pet? _petSelected;
 
   @override
   void initState() {
     super.initState();
-    _getFamilies();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _getFamilies();
+    });
   }
 
   _getFamilies() async {
     FamilyRepository familyRepository = FamilyRepository();
     HttpResponse familiesResponse = await familyRepository.myFamilies();
     if (familiesResponse.data != null) {
-      _families = familiesResponse.data;
-      _familySelected = _families.first;
+      setState(() {
+        _families = familiesResponse.data;
+        _familySelected = _families.first;
+      });
     } else {
       Dialogs.alert(
         context,
@@ -50,6 +58,25 @@ class _HomePageState extends State<HomePage> {
       );
     }
     // print(families);
+  }
+
+  _getPets(String familyId) async {
+    PetRepository petRepository = PetRepository();
+    HttpResponse petsResponse = await petRepository.myPets(familyId);
+    print(petsResponse.data);
+    if (petsResponse.data != null) {
+      setState(() {
+        _pets = petsResponse.data;
+        _petSelected = _pets.first;
+        print(_petSelected!.name);
+      });
+    } else {
+      Dialogs.alert(
+        context,
+        title: "Error",
+        description: petsResponse.error!.message,
+      );
+    }
   }
 
   @override
@@ -122,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             _familySelected = family;
+                            _getPets(family.id);
                           });
                         },
                         selected: family.id == _familySelected!.id,

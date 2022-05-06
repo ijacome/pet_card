@@ -1,37 +1,69 @@
+// To parse this JSON data, do
+//
+//     final pets = petsFromJson(jsonString);
+
 import 'dart:convert';
 
-Pet petFromJson(String str) => Pet.fromJson(json.decode(str));
+Pets petsFromJson(String str) => Pets.fromJson(json.decode(str));
 
-String petToJson(Pet data) => json.encode(data.toJson());
+String petsToJson(Pets data) => json.encode(data.toJson());
 
-class Pet {
-  Pet({
-    required this.name,
-    required this.birthdate,
-    required this.weight,
-    required this.raze,
-    required this.sex,
+class Pets {
+  Pets({
+    required this.pets,
+    required this.count,
   });
 
-  String name;
-  String birthdate;
-  String weight;
-  String raze;
-  String sex;
+  List<Pet> pets;
+  int count;
 
-  factory Pet.fromJson(Map<String, dynamic> json) => Pet(
-    name: json["name"],
-    birthdate: json["birthdate"],
-    weight: json["weight"],
-    raze: json["raze"],
-    sex: json["sex"],
+  factory Pets.fromJson(Map<String, dynamic> json) => Pets(
+    pets: List<Pet>.from(json["pets"].map((x) => Pet.fromJson(x))),
+    count: json["count"],
   );
 
   Map<String, dynamic> toJson() => {
+    "pets": List<dynamic>.from(pets.map((x) => x.toJson())),
+    "count": count,
+  };
+}
+
+class Pet {
+  Pet({
+    required this.id,
+    required this.name,
+    required this.birthDate,
+    required this.observation,
+    required this.familyId,
+    required this.updatedAt,
+    required this.createdAt,
+  });
+
+  String id;
+  String name;
+  DateTime birthDate;
+  String observation;
+  String familyId;
+  DateTime updatedAt;
+  DateTime createdAt;
+
+  factory Pet.fromJson(Map<String, dynamic> json) => Pet(
+    id: json["_id"],
+    name: json["name"],
+    birthDate: DateTime.parse(json["birthDate"]),
+    observation: json["observation"],
+    familyId: json["family_id"],
+    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: DateTime.parse(json["created_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
     "name": name,
-    "birthdate": birthdate,
-    "weight": weight,
-    "raze": raze,
-    "sex": sex,
+    "birthDate": birthDate.toIso8601String(),
+    "observation": observation,
+    "family_id": familyId,
+    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt.toIso8601String(),
   };
 }

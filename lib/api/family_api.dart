@@ -6,6 +6,7 @@ import 'package:pet_card/models/customers/family.dart';
 
 class FamilyApi extends DioBasic {
   final AuthenticationClient _authenticationClient;
+
   FamilyApi(Http http, this._authenticationClient) : super(http);
 
   Future<HttpResponse<List<Family>>> myFamilies() async {
@@ -18,7 +19,7 @@ class FamilyApi extends DioBasic {
       },
       parser: (data) {
         return Families.fromJson(data).families;
-      }
+      },
     );
   }
 }

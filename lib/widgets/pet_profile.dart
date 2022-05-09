@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pet_card/models/pet.dart';
+import 'package:pet_card/utils/enums/gender.dart';
 import 'package:pet_card/utils/my_colors.dart';
 
 class PetProfile extends StatelessWidget {
-  const PetProfile({Key? key}) : super(key: key);
+  final Pet currentPet;
+  const PetProfile({Key? key, required this.currentPet}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class PetProfile extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            petInfo['name'].toString(),
+            currentPet.name,
             style: const TextStyle(
                 color: MyColors.ripeOrange,
                 fontSize: 30,
@@ -135,7 +138,7 @@ class PetProfile extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Text(
-                                        petInfo['sex'].toString(),
+                                        currentPet.gender == Gender.female ? "female" : "male",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 18,

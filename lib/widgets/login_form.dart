@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:pet_card/data/authentication_client.dart';
 import 'package:pet_card/helpers/http_response.dart';
-import 'package:pet_card/pages/home_page.dart';
+import 'package:pet_card/pages/splash_page.dart';
 import 'package:pet_card/repositories/auth.dart';
 import 'package:pet_card/utils/dialogs.dart';
 import 'package:pet_card/utils/my_colors.dart';
@@ -36,7 +36,7 @@ class _LoginFormState extends State<LoginForm> {
       if (response.data != null) {
         _authenticationClient.saveSession(response.data);
         Navigator.pushNamedAndRemoveUntil(
-            context, HomePage.routeName, (route) => false);
+            context, SplashPage.routeName, (route) => false);
       } else {
         _logger.e(response.error!.data);
         Dialogs.alert(

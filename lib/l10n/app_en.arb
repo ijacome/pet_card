@@ -2,5 +2,9 @@
     "language": "English",
     "@language": {
     "description": "the current Language"
+    },
+    "pets": "Pets",
+    "@pets": {
+    "description": "the pets"
     }
 }

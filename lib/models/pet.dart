@@ -14,8 +14,8 @@ class Pets {
     required this.count,
   });
 
-  List<Pet> pets;
-  int count;
+  final List<Pet> pets;
+  final int count;
 
   factory Pets.fromJson(Map<String, dynamic> json) => Pets(
     pets: List<Pet>.from(json["pets"].map((x) => Pet.fromJson(x))),
@@ -37,15 +37,19 @@ class Pet {
     required this.familyId,
     required this.updatedAt,
     required this.createdAt,
+    required this.gender,
+    required this.weight,
   });
 
-  String id;
-  String name;
-  DateTime birthDate;
-  String observation;
-  String familyId;
-  DateTime updatedAt;
-  DateTime createdAt;
+  final String id;
+  final String name;
+  final DateTime birthDate;
+  final String observation;
+  final String familyId;
+  final DateTime updatedAt;
+  final DateTime createdAt;
+  final int gender;
+  final double weight;
 
   factory Pet.fromJson(Map<String, dynamic> json) => Pet(
     id: json["_id"],
@@ -55,6 +59,8 @@ class Pet {
     familyId: json["family_id"],
     updatedAt: DateTime.parse(json["updated_at"]),
     createdAt: DateTime.parse(json["created_at"]),
+    gender: json["gender"],
+    weight: json["weight"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +71,7 @@ class Pet {
     "family_id": familyId,
     "updated_at": updatedAt.toIso8601String(),
     "created_at": createdAt.toIso8601String(),
+    "gender": gender,
+    "weight": weight,
   };
 }

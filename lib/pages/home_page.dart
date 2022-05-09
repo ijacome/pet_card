@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pet_card/data/authentication_client.dart';
@@ -19,6 +20,7 @@ import 'package:pet_card/widgets/pet_profile.dart';
 class HomePage extends StatefulWidget {
   static const routeName = "home";
   final User? user;
+
   const HomePage({Key? key, this.user}) : super(key: key);
 
   @override
@@ -49,6 +51,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _families = familiesResponse.data;
         _familySelected = _families.first;
+        _getPets(_families.first.id);
       });
     } else {
       Dialogs.alert(
@@ -63,12 +66,10 @@ class _HomePageState extends State<HomePage> {
   _getPets(String familyId) async {
     PetRepository petRepository = PetRepository();
     HttpResponse petsResponse = await petRepository.myPets(familyId);
-    print(petsResponse.data);
     if (petsResponse.data != null) {
       setState(() {
         _pets = petsResponse.data;
         _petSelected = _pets.first;
-        print(_petSelected!.name);
       });
     } else {
       Dialogs.alert(
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: MyColors.purpleOne,
       extendBody: true,
       appBar: AppBar(
         actions: [
@@ -122,7 +123,10 @@ class _HomePageState extends State<HomePage> {
           child: Text(
             "Pet profile",
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14),
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
           ),
         ),
         elevation: 0,
@@ -174,15 +178,47 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: const SingleChildScrollView(
-            child: SizedBox(
+      body: SingleChildScrollView(
+        child: SizedBox(
           width: double.infinity,
-          child: PetProfile(),
-        )),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  children: _pets.map((Pet pet) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          _petSelected = pet;
+                        });
+                      },
+                      child: Container(
+                        height: 50,
+                        margin: const EdgeInsets.all(4),
+                        decoration: DottedDecoration(
+                          shape: Shape.box,
+                          strokeWidth: 2,
+                          borderRadius: BorderRadius.circular(10),
+                          color: MyColors.ripeOrange,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(pet.name),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              _petSelected != null
+                  ? PetProfile(
+                      currentPet: _petSelected!,
+                    )
+                  : Container(),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(

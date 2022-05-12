@@ -1,19 +1,32 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pet_card/api/authentication.dart';
 import 'package:pet_card/models/session.dart';
 import 'package:pet_card/models/user.dart';
 
 class AuthenticationClient {
   final FlutterSecureStorage _secureStorage;
+  final Authentication _authenticationApi;
 
-  AuthenticationClient(this._secureStorage);
+  AuthenticationClient(this._secureStorage, this._authenticationApi);
 
   Future<String?> get accessToken async {
     final data = await _secureStorage.read(key: 'SESSION');
     if (data != null) {
       final session = Session.fromJson(jsonDecode(data));
-      return session.token;
+      final DateTime currentDate = DateTime.now();
+      final DateTime createdAt = session.createdAt;
+      final int expiredIn = session.expiresIn;
+      final int diff = currentDate.difference(createdAt).inSeconds;
+      if (expiredIn - diff >= 60) {
+        return session.token;
+      }
+      final response = await _authenticationApi.refreshToken(session.token, session.user);
+      if (response.data != null) {
+        saveSession(response.data);
+        return response.data!.token;
+      }
     }
 
     return null;

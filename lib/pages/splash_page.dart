@@ -32,7 +32,6 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
     final user = await _authenticationClient.user;
-    // Navigator.pushReplacementNamed(context, HomePage.routeName);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         settings: const RouteSettings(name: HomePage.routeName),
